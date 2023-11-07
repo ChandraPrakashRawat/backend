@@ -520,6 +520,8 @@ userController.addFeedback = async (payload) => {
 };
 
 userController.getAllFeedbacks = async (payload) => {
+    payload.page = payload?.page === undefined || payload?.page === 0 ? 1 : payload.page;
+    payload.limit = payload?.limit === undefined || payload?.limit === 0 ? 10 : payload.limit;
     let data = await dbService.aggregate(Feedbacks, [
         {        $lookup:
             {
@@ -534,7 +536,10 @@ userController.getAllFeedbacks = async (payload) => {
                 'as':'userInfo'
             }
         },
-        { $unwind: { path: "$userInfo", preserveNullAndEmptyArrays: true } }
+        { $unwind: { path: "$userInfo", preserveNullAndEmptyArrays: true } },
+        {$sort: {createdAt:-1}},
+        {$skip: ((payload.page - 1) * payload.limit)},
+        {$limit: payload.limit},
 
     ])
     return createSuccessResponse(MESSAGES.SUCCESS, data)

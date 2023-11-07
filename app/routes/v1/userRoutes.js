@@ -310,6 +310,10 @@ module.exports = [
 			headers: {
 				authorization: Joi.string().required().description("user's token"),
 			},
+			query: {
+				page: Joi.number(),
+				limit: Joi.number(),
+			},
 			group: 'USER',
 			description: 'Get All Feedbacks',
 			model: 'feedbacks'
