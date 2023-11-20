@@ -400,32 +400,61 @@ userController.getCoinsHistory = async (payload) => {
     }
 
     let coinsHistory = await dbService.aggregate(CoinsHistoryModel, [
-        {
-            $match: {usedBy: user._id}
-        },
-        {
-            $sort: {createdAt: -1}
-        },
-        // {
-        //     $lookup: {
-        //         from: "users",
-        //         localField: "referredBy",
-        //         foreignField: "_id",
-        //         as: "referredBy"
-        //     }
-        // },
-        // {
-        //     $unwind: {path: "$referredBy", preserveNullAndEmptyArrays: true}
-        // },
-        {
-            $project: {
-                // "referredBy.name": 1,
-                // "referredBy.userName": 1,
-                type: 1,
-                coins: 1,
-                createdAt: 1,
-            }
+     {
+        $facet:{
+            adminCoins:[
+                {
+                    $match: {usedBy: user._id, type:3}
+                },
+                {
+                    $group:{
+                        _id:null,
+                        sum:{ $sum: "$coins" } 
+                    }
+                }
+            ],
+            otherCoins:[
+                {
+                    $match: {usedBy: user._id}
+                },
+                {
+                    $sort: {createdAt: -1}
+                },
+                // {
+                //     $lookup: {
+                //         from: "users",
+                //         localField: "referredBy",
+                //         foreignField: "_id",
+                //         as: "referredBy"
+                //     }
+                // },
+                // {
+                //     $unwind: {path: "$referredBy", preserveNullAndEmptyArrays: true}
+                // },
+                {
+                    $project: {
+                        // "referredBy.name": 1,
+                        // "referredBy.userName": 1,
+                        type: 1,
+                        coins: 1,
+                        createdAt: 1,
+                        adminCoins:1
+                    }
+                }
+            ],
+            totalCoins:[
+                {
+                    $match: {usedBy: user._id}
+                },
+                {
+                    $group:{
+                        _id:null,
+                        sum:{ $sum: "$coins" } 
+                    }
+                }
+            ]
         }
+     }
     ]);
 
     return createSuccessResponse(MESSAGES.PROFILE_UPDATED_SUCCESSFULLY, coinsHistory);
@@ -506,7 +535,8 @@ userController.addAdminsCoins = async (payload)=>{
                                                 {$set:{
                                                     adminCoins:payload.adminCoins
                                                 }},
-                                                {new:true});
+                                               {new:true});
+    await dbService.create(CoinsHistoryModel, {usedBy: payload.id, type: 3, coins: payload.adminCoins, referredBy: payload.user._id});
     return createSuccessResponse(MESSAGES.ADMIN_COINS_ADDED, data)
 };
 
