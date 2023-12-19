@@ -37,7 +37,7 @@ module.exports = [
 				userName: Joi.string().case("lower").required(),
 				name: Joi.string().required(),
 				email: Joi.string().case('lower').regex(EMAIL_REGEX).optional(),
-				phone: Joi.string().regex(PHONE_REGEX).optional(),
+				phone: Joi.string().regex(PHONE_REGEX).message('Please enter valid phone number').optional(),
 				referral_code: Joi.string().optional().allow(""),
 				password: Joi.string().required(),
 			},

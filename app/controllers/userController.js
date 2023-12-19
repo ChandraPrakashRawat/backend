@@ -71,7 +71,7 @@ userController.userSignup = async (payload) => {
     if(user) {
         if(user.userName && user.userName == payload.userName) return createErrorResponse(MESSAGES.USERNAME_ALREADY_TAKEN, ERROR_TYPES.ALREADY_EXISTS);
         if(user.phone && user.phone == payload.phone) return createErrorResponse(MESSAGES.PHONE_ALREADY_TAKEN, ERROR_TYPES.ALREADY_EXISTS);
-        return createErrorResponse(MESSAGES.EMAIL_ALREADY_TAKEN, ERROR_TYPES.ALREADY_EXISTS);
+        if(user.email && user.email == payload.email) return createErrorResponse(MESSAGES.EMAIL_ALREADY_TAKEN, ERROR_TYPES.ALREADY_EXISTS);
     }
 
     let referredBy;
