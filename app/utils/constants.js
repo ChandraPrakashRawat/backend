@@ -35,9 +35,9 @@ CONSTANTS.USER_TYPE = {
 };
 
 CONSTANTS.PASSWORD_PATTER_REGEX = /^(?=.{8,})(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$/;
-CONSTANTS.EMAIL_REGEX=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-CONSTANTS.NAME_REGEX=/^[a-zA-Z\s]{1,20}[a-zA-Z\s]$/;
-CONSTANTS.PHONE_REGEX=/^\+\d{1,3}\d{8,10}$/;
+CONSTANTS.EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+CONSTANTS.NAME_REGEX = /^[a-zA-Z\s]{1,20}[a-zA-Z\s]$/;
+CONSTANTS.PHONE_REGEX = /^(\+91)?(\d{10})$/;
 
 CONSTANTS.NORMAL_PROJECTION = { __v: 0, isDeleted: 0, createdAt: 0, updatedAt: 0 };
 

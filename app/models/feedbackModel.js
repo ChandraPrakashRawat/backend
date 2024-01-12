@@ -9,8 +9,8 @@ const Schema = MONGOOSE.Schema;
 const feedback = new Schema({
     ratting: { type: Number },
     interested: { type: String },
-    comment: { type: String, default:undefined },
-    userID: { type: SchemaTypes.ObjectId, ref:'users' },
-}, { timestamps: true, versionKey: false, collection: "feedbacks"});
+    comment: { type: String, default: undefined },
+    userID: { type: SchemaTypes.ObjectId, ref: 'users' },
+}, { timestamps: true, versionKey: false, collection: "feedbacks" });
 
 module.exports = MONGOOSE.model('feedbacks', feedback);

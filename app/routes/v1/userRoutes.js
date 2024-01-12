@@ -47,7 +47,7 @@ module.exports = [
 		},
 		handler: userController.userSignup
 	},
-    {
+	{
 		method: 'POST',
 		path: '/v1/user/login',
 		joiSchemaForSwagger: {
@@ -93,7 +93,7 @@ module.exports = [
 		},
 		handler: userController.loginUserAdmin
 	},
-    {
+	{
 		method: 'POST',
 		path: '/v1/user/resetPass',
 		joiSchemaForSwagger: {
@@ -108,7 +108,7 @@ module.exports = [
 		},
 		handler: userController.resetPass
 	},
-    {
+	{
 		method: 'POST',
 		path: '/v1/user/resetPass/sendOTP',
 		joiSchemaForSwagger: {
@@ -121,7 +121,7 @@ module.exports = [
 		},
 		handler: userController.sendOTP
 	},
-    {
+	{
 		method: 'POST',
 		path: '/v1/user/resetPass/verifyOTP',
 		joiSchemaForSwagger: {
@@ -136,7 +136,7 @@ module.exports = [
 		},
 		handler: userController.verifyOTP
 	},
-    {
+	{
 		method: 'POST',
 		path: '/v1/user/updateProfile',
 		joiSchemaForSwagger: {
@@ -158,7 +158,7 @@ module.exports = [
 		auth: AVAILABLE_AUTHS.ADMIN_USER,
 		handler: userController.updateProfile
 	},
-    {
+	{
 		method: 'POST',
 		path: '/v1/user/collectCoins',
 		joiSchemaForSwagger: {
@@ -172,7 +172,7 @@ module.exports = [
 		auth: AVAILABLE_AUTHS.USER,
 		handler: userController.collectDailyCoins
 	},
-    {
+	{
 		method: 'GET',
 		path: '/v1/user/teamList',
 		joiSchemaForSwagger: {
@@ -193,7 +193,7 @@ module.exports = [
 		auth: AVAILABLE_AUTHS.ADMIN_USER,
 		handler: userController.getTeamList
 	},
-    {
+	{
 		method: 'GET',
 		path: '/v1/user/coinsHistory',
 		joiSchemaForSwagger: {
@@ -207,7 +207,7 @@ module.exports = [
 		auth: AVAILABLE_AUTHS.ADMIN_USER,
 		handler: userController.getCoinsHistory
 	},
-    {
+	{
 		method: 'GET',
 		path: '/v1/user/referPoints',
 		joiSchemaForSwagger: {
@@ -228,7 +228,7 @@ module.exports = [
 		auth: AVAILABLE_AUTHS.ADMIN,
 		handler: userController.getReferPoints
 	},
-    {
+	{
 		method: 'POST',
 		path: '/v1/user/admin/options',
 		joiSchemaForSwagger: {
@@ -252,7 +252,7 @@ module.exports = [
 		auth: AVAILABLE_AUTHS.ADMIN,
 		handler: userController.changeAdminOptions
 	},
-    {
+	{
 		method: 'GET',
 		path: '/v1/user/admin/options',
 		joiSchemaForSwagger: {
@@ -274,7 +274,7 @@ module.exports = [
 				authorization: Joi.string().required().description("user's token"),
 			},
 			body: {
-				id:Joi.string().required(),
+				id: Joi.string().required(),
 				adminCoins: Joi.number().required()
 			},
 			group: 'USER',
@@ -292,7 +292,7 @@ module.exports = [
 				authorization: Joi.string().required().description("user's token"),
 			},
 			body: {
-				comment:Joi.string().optional(),
+				comment: Joi.string().optional(),
 				interested: Joi.string().required(),
 				ratting: Joi.number().required()
 			},

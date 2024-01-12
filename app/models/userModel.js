@@ -17,7 +17,7 @@ const userSchema = new Schema({
     coins: { type: Number, default: 0 },
     lastCollectedDate: Date,
     isDeleted: { type: Boolean },
-    adminCoins:{type: Number, default: 0}
-}, { timestamps: true, versionKey: false, collection: "users"});
+    adminCoins: { type: Number, default: 0 }
+}, { timestamps: true, versionKey: false, collection: "users" });
 
 module.exports = MONGOOSE.model('users', userSchema);
