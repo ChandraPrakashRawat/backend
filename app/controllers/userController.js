@@ -32,8 +32,37 @@ userController.getDashboardDataAdmin = async (payload) => {
 
     let usersCount = await dbService.countDocuments(UserModel, { userType: USER_TYPE.USER });
     let feedbackCount = await dbService.countDocuments(Feedbacks);
-    let pending_User = await dbService.countDocuments(CoinsHistoryModel, { coins: { $in: [0, 15] } })
-
+    let pending_User = await dbService.countDocuments(UserModel, { coins: { $in: [0, 15] } })
+    const counts = await dbService.aggregate(UserModel, [
+        {
+            $facet:{
+            userCount:[
+                {
+                    $match:{ userType: USER_TYPE.USER }
+                },
+                {
+                    $count:"usersCount"
+                }
+            ],
+            dailyRegUsers:[
+                {
+                    $match:{ userType: USER_TYPE.USER, createdAt:  {$gte:today}}
+                },
+                {
+                    $count:"todatReqUsersCount"
+                }
+            ],            
+            pendingUsers:[
+                {
+                    $match:{ coins: { $in: [0, 15] } }
+                },
+                {
+                    $count:"pendingUsersCount"
+                }
+            ],
+            }
+        }
+    ])
     let matchCriteria = { createdAt: { $gte: today } };
     let data = await dbService.aggregate(CoinsHistoryModel, [
         {
@@ -61,7 +90,15 @@ userController.getDashboardDataAdmin = async (payload) => {
         }
     ]);
 
-    return createSuccessResponse(MESSAGES.SERVER_IS_WORKING_FINE, { usersCount, feedbackCount, pending_User, referPoints: (data[0]?.refer[0]?.sum) ? (data[0]?.refer[0]?.sum) : 0, dailyPoints: (data[0]?.daily[0]?.sum) ? (data[0]?.daily[0]?.sum) : 0 });
+    return createSuccessResponse(MESSAGES.SERVER_IS_WORKING_FINE, 
+        {
+            usersCount:counts[0].userCount[0].usersCount ?? 0,
+             feedbackCount, 
+             pending_User:counts[0].pendingUsers[0].pendingUsersCount ?? 0,
+             daily_Reg_User:counts[0].dailyRegUsers[0].todatReqUsersCount ?? 0,
+             referPoints: (data[0]?.refer[0]?.sum) ? (data[0]?.refer[0]?.sum) : 0, 
+             dailyPoints: (data[0]?.daily[0]?.sum) ? (data[0]?.daily[0]?.sum) : 0 
+            });
 };
 
 /**
